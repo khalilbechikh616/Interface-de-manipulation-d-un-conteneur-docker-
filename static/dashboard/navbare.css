@@ -1,0 +1,46 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: linear-gradient(to right top, #8e44ad 0%, #3498db 100%);
+  background-size: cover; /* Ensures the background covers the entire area */
+  background-repeat: no-repeat;
+}
+
+nav {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 60px 0;
+}
+
+nav ul {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2); /* Keep the semi-transparent background */
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+nav ul li a {
+  padding: 18px;
+  font-family: "Open Sans";
+  text-transform: uppercase;
+  color: rgba(0, 35, 122, 0.5);
+  font-size: 18px;
+  text-decoration: none;
+  display: block;
+}
+
+nav ul li a:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.1); /* Adjusted to a solid color */
+  color: rgba(0, 35, 122, 0.7);
+}
+nav ul li form {
+    display: inline; /* Ensure the form is displayed inline with other items */
+  }
+  

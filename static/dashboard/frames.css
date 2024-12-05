@@ -1,0 +1,470 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0; /* Ensure no padding */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+/* Container to ensure full height and push footer down */
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0; /* Remove all margins */
+    padding: 0; /* Remove all padding */
+}
+
+/* Main content should grow to push the footer down */
+.main-content {
+    flex-grow: 1;
+    min-height: 3000px; /* Take up the full viewport height */
+    padding: 20px; /* Ensure there's enough content to scroll */
+    padding-left: 0;
+    margin-bottom: 2250px; /* Remove all margins */
+    padding: 0; /* Remove all padding */
+}
+
+/* Frame container styling */
+.frame-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0; /* Remove padding around the container */
+    gap: 20px; /* Added gap between frames */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin: 0; /* Remove any margins */
+    z-index: 1; /* Set a lower z-index to ensure it appears below the navbar */
+    
+}
+
+/* Frames styling */
+.frame-container a {
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit color from parent, remove blue color */
+}
+
+.frame {
+    flex: 1; /* Allow frames to expand */
+    background: linear-gradient(to bottom right, #1a1a1a, #333333); /* Dark gradient with visible degradation */
+    padding: 20px; /* Padding inside the frame */
+    border: 1px solid #444; /* Slightly lighter border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* More intense shadow */
+    transition: transform 0.3s; /* Transition effect for hover */
+    min-height: 200px; /* Minimum height to make frames larger */
+    min-width: 200px; /* Minimum width to make frames larger */
+    position: relative; /* Position relative to adjust for overlay effects */
+    overflow: hidden; /* Hide any overflow content */
+    color: #f5f5f5; /* Light text color for contrast */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin-left: 0; /* Remove any left margin */
+}
+
+/* Frame content styling */
+.frame-content {
+    position: relative;
+    z-index: 1; /* Ensure content appears above overlay */
+}
+
+.frame-header {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #e0e0e0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Subtle shadow for better readability */
+}
+
+.frame-body {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #cfcfcf;
+}
+
+.frame-footer {
+    margin-top: 15px;
+    font-size: 0.9em;
+    text-align: right;
+    color: #b0b0b0;
+}
+
+/* Optional: Add an overlay effect for content */
+.frame::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); /* Semi-transparent overlay */
+    z-index: 0; /* Ensure it’s behind content */
+    border-radius: 10px;
+    transition: opacity 0.3s;
+}
+
+.frame:hover::before {
+    opacity: 0; /* Hide overlay on hover for a clean effect */
+}
+
+.frame:hover {
+    transform: scale(1.05); /* Zoom in on hover */
+    background: linear-gradient(to bottom right, #333333, #1a1a1a); /* Reverse gradient on hover for a subtle effect */
+}
+
+.frame a {
+    text-decoration: none;
+    color: #f5f5f5;
+}
+
+.frame a:hover {
+    color: #337ab7; /* Change text color on hover */
+}
+
+/* Manage containers form styling */
+#manage-containers-form {
+    width: 100%; /* Reduce the width a bit */
+   
+    margin-top: 20px; /* Add a gap between the frame and the form */
+    padding: 20px;
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    display: none; /* Keep it hidden initially */
+}
+
+#manage-containers-form.visible {
+    display: block; /* Show the form */
+}
+
+/* Action button styling */
+.action-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background: #3498db; /* Button color */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.action-button:hover {
+    background: #2980b9; /* Button hover color */
+}
+
+.hidden {
+    display: none; /* Hide elements with this class */
+}
+
+/* Footer styling */
+.footer {
+    background: #232a34;
+    padding: 80px 0 50px; /* Top and bottom padding only */
+    text-align: center;
+    width: 100vw; /* Set the width to 100% of the viewport width */
+    position: relative; /* Ensure the footer is relative to its container */
+    bottom: 0;
+    height: auto; /* Set the footer's height to auto */
+    overflow: hidden; /* Add overflow: hidden to prevent content from overflowing */
+    z-index: 1; /* Add a z-index to ensure the footer is on top of other elements */
+    margin-left: calc(-50vw + 50%); /* Adjust to cover the space on the left */
+    margin-right: calc(-50vw + 50%); /* Adjust to cover the space on the right */
+    padding-top: 100px;
+    padding-bottom: 150px;
+}
+
+/* Show footer on scroll */
+.footer.show {
+    transform: translateY(0); /* Show footer when scrolled */
+    position: fixed; /* Change to fixed positioning when scrolled */
+    bottom: 0; /* Set the footer's bottom position to 0 */
+    height: auto; /* Set the footer's height to auto */
+    width: 100vw; /* Set the width to 100% of the viewport width */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin-left: calc(-50vw + 50%); /* Adjust to cover the space on the left */
+    margin-right: calc(-50vw + 50%); /* Adjust to cover the space on the right */
+    padding-top: 100px;
+    padding-bottom: 150px;
+}
+
+/* Show footer on scroll */
+
+
+/* Manage Logs frame styling */
+.manage-logs {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    padding: 20px; /* Ensure there’s enough padding */
+    background: linear-gradient(to bottom right, #1a1a1a, #333333); /* Dark gradient background */
+    border: 1px solid #444; /* Add border to match containers frame */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Similar shadow to containers frame */
+    color: #f5f5f5; /* Light text color for contrast */
+    margin-left: 0; /* Remove left margin */
+    min-height: 200px; /* Minimum height to match containers frame */
+    min-width: 200px; /* Minimum width to match containers frame */
+}
+
+.docker-image {
+    max-width: 100%; /* Ensure image fits within frame */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure image displays as block element */
+}
+
+/* Center image within its container */
+.image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1); /* Slight background to highlight image */
+    border-radius: 10px;
+    max-width: 100%; /* Ensure it does not overflow */
+}
+
+.manage-logs h1 {
+    color: #e0e0e0;
+    font-size: 2em;
+    text-align: center; /* Center the title */
+    margin: 0; /* Remove any default margins */
+}
+
+/* ... existing CSS code ... */
+
+.frame h1 {
+    color: #e0e0e0;
+}
+
+.manage-containers h1 {
+    text-align: center;
+}
+
+/* Manage Logs form styling */
+#manage-logs-form {
+    width: 100%;
+   
+    margin-top: 20px;
+    padding: 20px;
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    display: none; /* Keep it hidden initially */
+}
+
+#manage-logs-form.visible {
+    display: block; /* Show the form */
+}
+
+#manage-logs-form label {
+    display: block;
+    margin-top: 10px;
+    color: #f5f5f5;
+}
+
+#manage-logs-form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #333;
+    color: #f5f5f5;
+}
+
+#manage-logs-form button {
+    margin-top: 20px;
+}
+
+/* Adjust button styling if necessary */
+/* Add the visible class to CSS */
+.visible {
+    display: block;
+}
+
+/* Adjust the frames for better height management */
+.frame-row {
+    display: flex; /* Flexbox for horizontal alignment */
+    justify-content: space-between; /* Ensure spacing between frames */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.frame.new-frame {
+    width: 48%; /* Ensure each frame takes about half of the available space */
+    height: 300px; /* Set a fixed height for each frame */
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: visible;
+}
+
+/* Adjust the canvas inside each frame */
+.frame.new-frame canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 80%; /* Prevent the chart from exceeding the frame's height */
+    box-sizing: border-box;
+}
+
+/* Adjust the size of the additional frames */
+#new-frame-5-link,
+#new-frame-6-link {
+    height: 300px;
+    margin-left: 20px;
+}
+
+.statistic-figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+#new-frame-3-link,
+#new-frame-4-link {
+    min-width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.saas-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    background-color: transparent;
+}
+
+.saas-panel h1 {
+    margin: 0;
+    font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #333;
+    animation: fade-in 0.5s ease-in-out, scale-up 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes scale-up {
+    0% {
+        transform: scale(0.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+#manage-logs-form select#log-type {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #333;
+    color: #f5f5f5;
+}
+/* Modify Odoo Configuration frame styling */
+/* Container for centering the frame */
+/* Container for centering the frame */
+/* Container for centering the frame */
+.frame-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-top: 20px; /* Space between frames */
+}
+
+/* Modify Odoo Configuration frame styling */
+.modify-odoo-config {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    padding: 20px;
+    background: linear-gradient(to bottom right, #1a1a1a, #333333); /* Dark gradient */
+    border: 1px solid #444;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Same shadow as other frames */
+    color: #f5f5f5; /* Light text color */
+    margin: 0 auto; /* Center horizontally */
+    max-height: 250px; /* Adjusted height to fit the image better */
+    max-width: 900px; /* Maximum width of the frame */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+/* Center image within the Modify Odoo Configuration frame */
+.modify-odoo-config .image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0; /* Remove extra padding */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    width: 100%; /* Make the image-wrapper full width */
+    height: 100%; /* Ensure it takes the full height of the frame */
+}
+
+.modify-odoo-config .image-wrapper img {
+    width: auto; /* Maintain original width */
+    height: auto; /* Maintain original height */
+    max-height: 100%; /* Limit height to the height of the image-wrapper */
+    object-fit: contain; /* Ensure the entire image is visible */
+    border-radius: 10px; /* Optional: keep the rounded corners */
+}
+/* Modify Odoo Configuration Form Styling */
+#modify-odoo-config-form {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(to bottom right, #1a1a1a, #333333); /* Match the frame background */
+    border: 1px solid #444;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    display: none; /* Keep it hidden initially */
+}
+
+#modify-odoo-config-form.visible {
+    display: block; /* Show the form */
+}
+
+#modify-odoo-config-form label {
+    display: block;
+    margin-top: 10px;
+    color: #f5f5f5;
+}
+
+#modify-odoo-config-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #333;
+    color: #f5f5f5;
+}
+
+#modify-odoo-config-form button {
+    margin-top: 20px;
+}

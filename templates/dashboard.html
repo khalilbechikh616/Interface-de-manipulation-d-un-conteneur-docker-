@@ -1,0 +1,337 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" />
+    <!-- Custom CSS from static folder -->
+    <link rel="stylesheet" href="{% static 'dashboard/navbare.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'dashboard/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'navbar/navbarecheckbox.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/frames.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        /* Additional inline CSS for testing */
+        .main-content {
+            padding: 20px;
+            /* Ensure there's enough content to scroll */
+            min-height: 1000px;
+            /* Remove or adjust as needed */
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'statistic/statistic.js' %}" defer></script>
+    <script src="{% static 'statistic/cpu_memory_usage.js' %}" defer></script>
+
+
+</head>
+
+<body>
+
+    <nav>
+        <div class="saas-panel">
+            <h1>Odoo SaaS Panel</h1>
+        </div>
+        <!-- Rest of your navigation code here -->
+    </nav>
+    <input type="checkbox" id="active">
+    <label for="active" class="menu-btn"><span></span></label>
+    <label for="active" class="close"></label>
+
+    <div class="wrapper">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Account</a></li>
+            <li><a href="#" id="logout-link">Logout</a></li>
+        </ul>
+    </div>
+
+
+
+
+    <div class="main-content">
+        <div class="frame-container">
+            <!-- Manage Logs Frame -->
+            <div class="frame manage-logs" id="manage-logs-link">
+                <h1>Manage Odoo Logs</h1>
+                <div class="image-wrapper">
+                    <img src="{% static 'images/dockerlogs.png' %}" alt="Docker Logs" class="docker-image">
+                </div>
+            </div>
+
+            <!-- Manage Containers Frame -->
+            <div class="frame manage-containers" id="manage-containers-link">
+                <h1>Manage Odoo Container</h1>
+                <div class="image-wrapper">
+                    <img src="{% static 'images/docker.gif' %}" alt="Docker" class="docker-image">
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Manage Logs Form -->
+        <!-- Manage Logs Form -->
+        <div class="form-container hidden" id="manage-logs-form">
+            <form>
+                <label for="last-minutes">Last Minutes:</label>
+                <input type="number" id="last-minutes" name="last-minutes" min="0" placeholder="Enter minutes">
+
+                <label for="lines">Lines:</label>
+                <input type="number" id="lines" name="lines" min="0" placeholder="Enter number of lines">
+
+                <button type="button" class="btn btn-success btn-lg w-100 mb-3" id="show-logs">Show Logs</button>
+            </form>
+        </div>
+
+
+
+
+
+        <!-- Manage Containers Form -->
+        <div class="form-container hidden" id="manage-containers-form">
+            <form>
+                <input type="hidden" id="container-id" value="f25f4282f55b">
+                <button type="button" class="btn btn-info btn-lg w-100 mb-3" id="start-container">Start</button>
+                <button type="button" class="btn btn-danger btn-lg w-100 mb-3" id="stop-container">Stop</button>
+                <button type="button" class="btn btn-success btn-lg w-100 mb-3" id="show-container-details">Show
+                    Container Details</button>
+            </form>
+        </div>
+        <div class="frame-container">
+            <!-- Modify Odoo Configuration Frame -->
+            <div class="frame modify-odoo-config" id="modify-odoo-config-link">
+                <h1>Modify Odoo Configuration</h1>
+                <div class="image-wrapper">
+                    <img src="{% static 'images/odoo.png' %}" alt="Odoo Configuration" class="docker-image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Modify Odoo Configuration Form -->
+        <div class="form-container hidden" id="modify-odoo-config-form">
+            <form id="odoo-config-form">
+                <label for="conf-content">Odoo Configuration:</label>
+                <textarea id="conf-content" name="conf_content" rows="10" cols="50"
+                    placeholder="Edit Odoo configuration here...">{{ conf_content }}</textarea>
+                <button type="button" class="btn btn-success btn-lg w-100 mb-3" id="save-config">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- New Frame 1 -->
+        <!-- New Frame 1 for CPU Usage Chart -->
+        <div class="frame-row">
+            <!-- CPU Usage and CPU Usage Over Time (Curve) -->
+            <div class="frame new-frame" id="new-frame-1-link">
+                <h1> Odoo Container CPU Usage</h1>
+                <canvas id="cpu-chart"></canvas>
+            </div>
+
+            <!-- New Frame for CPU Usage Over Time -->
+            <div class="frame new-frame" id="new-frame-5-link">
+                <h1> Odoo Container CPU Usage Over Time</h1>
+                <canvas id="cpu-curve-chart"></canvas> <!-- Canvas for CPU Usage curve -->
+            </div>
+        </div>
+
+        <div class="frame-row">
+            <!-- Memory Usage and Memory Usage Over Time (Curve) -->
+            <div class="frame new-frame" id="new-frame-2-link">
+                <h1>Odoo Container Memory Usage</h1>
+                <canvas id="memory-chart"></canvas>
+            </div>
+
+            <!-- New Frame for Memory Usage Over Time -->
+            <div class="frame new-frame" id="new-frame-6-link">
+                <h1>Odoo Container Memory Usage Over Time</h1>
+                <canvas id="memory-curve-chart"></canvas> <!-- Canvas for Memory Usage curve -->
+            </div>
+        </div>
+
+        <!-- Network Traffic and Disk I/O -->
+        <div class="frame new-frame" id="new-frame-3-link">
+            <h1>Odoo Container Network Traffic</h1>
+            <canvas id="network-chart"></canvas>
+        </div>
+
+        <div class="frame new-frame" id="new-frame-4-link">
+            <h1>Odoo Container Disk I/O</h1>
+            <canvas id="disk-chart"></canvas>
+        </div>
+
+    </div>
+
+
+
+    <!-- Logs Modal -->
+    <div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logsModalLabel">Container Logs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Logs Table will be injected here by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!--
+    -->
+    <div class="footer">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="footer_menu">
+                        <ul>
+                            <li><a href="#" class="home-link">Home</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Service</a></li>
+                            <li><a href="#">Works</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer_profile">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="footer_copyright">
+                        <p>© 2021 Sai. All Rights Reserved.</p>
+                    </div>
+                </div><!--- END COL -->
+            </div><!--- END ROW -->
+        </div><!--- END CONTAINER -->
+    </div>
+    <script>
+        $(document).ready(function () {
+            // Function to get CSRF token from the cookie
+            function getCsrfToken() {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, 10) === 'csrftoken=') {
+                            cookieValue = decodeURIComponent(cookie.substring(10));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            var csrfToken = getCsrfToken();
+
+            // Function to generate a unique cache-busting string
+            function getCacheBuster() {
+                return new Date().getTime(); // Current timestamp
+            }
+
+            // Start button click event
+            $("#start-container").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/start_container/?cache_buster=' + getCacheBuster(), // Add cache-busting parameter
+                    data: JSON.stringify({ container_id: 'a0380c8bf2c6' }), // Odoo container ID
+                    contentType: 'application/json',
+                    headers: { 'X-CSRFToken': csrfToken },
+                    success: function (response, textStatus, xhr) {
+                        if (xhr.status === 204) { // 204 No Content indicates success
+                            alert('Odoo container started successfully!');
+                            displayContainerDetails(response.container_info);
+                        } else if (xhr.status === 304) { // 304 Not Modified
+                            alert('Odoo container is already started.');
+                        } else {
+                            alert('Unexpected status code: ' + xhr.status);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('Failed to start container. Status code: ' + xhr.status);
+                    }
+                });
+            });
+
+
+            // Stop button click event
+            $("#stop-container").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/stop_container/?cache_buster=' + getCacheBuster(), // Add cache-busting parameter
+                    data: JSON.stringify({ container_id: 'a0380c8bf2c6' }),
+                    contentType: 'application/json',
+                    headers: { 'X-CSRFToken': csrfToken },
+                    success: function (response, textStatus, xhr) {
+                        if (xhr.status === 204) { // 204 No Content indicates success
+                            alert('Container stopped successfully!');
+                            displayContainerDetails(response.container_info);
+                        } else if (xhr.status === 304) { // 304 Not Modified
+                            alert('Container already stopped.');
+                        } else {
+                            alert('Unexpected status code: ' + xhr.status);
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('Failed to stop container. Status code: ' + xhr.status);
+                    }
+                });
+            });
+
+            function displayContainerDetails(containerInfo) {
+                // Implement this function to display container details if needed
+                console.log("Container info:", containerInfo);
+            }
+        });
+        // Add an event listener to the "Home" link
+        $('.home-link').click(function () {
+            $('#active').prop('checked', false);
+        });
+        // Add an event listener to the "Home" link
+        $('.wrapper ul li a:contains("Home")').click(function () {
+            $('#active').prop('checked', false);
+        });
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+    <script src="{% static 'dashboard/footer.js' %}"></script>
+    <script src="{% static 'dashboard/frames.js' %}"></script>
+    <script src="{% static 'dashboard/containerdata.js' %}"></script>
+    <script src="{% static 'dashboard/showlogs.js' %}"></script>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
